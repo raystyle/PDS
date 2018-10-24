@@ -1,4 +1,4 @@
-#PDS - Payload Delivery Shelter
+# PDS - Payload Delivery Shelter
 -----------------------------------------------
 TLDR; This aims to be a collection of server side scripts to keep your malcode from getting
 in the hands of a SOC, VirusTotal, or the other various threat hunting services out there.
@@ -7,7 +7,7 @@ In addition, this includes script(s) to automate the name and hash modifications
 
 Nothing new here, just using the same methods that criminals have been using forever.
 
-##php_gates
+## php_gates
 ---------------------------------------------------
 A variety of PHP gate files which allow you to restrict the download of your payload for two scenarios.
 
@@ -16,7 +16,7 @@ A variety of PHP gate files which allow you to restrict the download of your pay
     2.) You don't know, or you don't want to risk the target opening work email from another network and not getting the payload (useragent_gat.php)
     3.) Uber simple id switch so to view the payload (id_switch.php)
 
-##payload_changer.py
+## payload_changer.py
 ---------------------------------------------------
 No special dependancies
 Currently, the script does the following
