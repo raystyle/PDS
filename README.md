@@ -1,4 +1,4 @@
-PDS - Payload Delivery Shelter
+#PDS - Payload Delivery Shelter
 -----------------------------------------------
 TLDR; This aims to be a collection of server side scripts to keep your malcode from getting
 in the hands of a SOC, VirusTotal, or the other various threat hunting services out there.
@@ -7,7 +7,7 @@ In addition, this includes script(s) to automate the name and hash modifications
 
 Nothing new here, just using the same methods that criminals have been using forever.
 
-php_gates
+##php_gates
 ---------------------------------------------------
 A variety of PHP gate files which allow you to restrict the download of your payload for two scenarios.
 
@@ -16,7 +16,7 @@ A variety of PHP gate files which allow you to restrict the download of your pay
     2.) You don't know, or you don't want to risk the target opening work email from another network and not getting the payload (useragent_gat.php)
     3.) Uber simple id switch so to view the payload (id_switch.php)
 
-payload_changer.py
+##payload_changer.py
 ---------------------------------------------------
 No special dependancies
 Currently, the script does the following
@@ -37,21 +37,21 @@ Download chosen gate file to /tmp/html/ (put the gate file in the same directory
 
 #make sure that you do not have directory listing enabled on you html folder....
 
-cd html
+`cd html`
 
 #run the php sever as a background process. Any requests will be an interrupt
 
-php -S publicip:80 &
+`php -S publicip:80 &`
 
 #go back one dir and run the python script.. make sure you are not putting it in your public html folder
 
-cd ../
+`cd ../`
 
 #recommend running under screen so you can detach (ctrl a ctrl d).  The php server will do interupts which works great to monitor during an engagement
 
-screen python payload_changer.py -d html/ -p payload.hta -g gate.php -s 10
+`screen python payload_changer.py -d html/ -p payload.hta -g gate.php -s 10`
 
-Future Improvements
+#Future Improvements
 ---------------------------------------------------
 Support for monitoring log files for successful downloads of payload
 Support for identifying suspicious requests (example: googlebot UA from a non Google IP)
@@ -60,7 +60,7 @@ Support for identifying suspicious requests (example: googlebot UA from a non Go
 
 ---------------------------------------------------
 Issues or feature requests
-Contact samuel.sayen@mandiant.com
+Contact sam@sayen.io
 
 
 
