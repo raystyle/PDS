@@ -1,5 +1,4 @@
 # PDS - Payload Delivery Shelter   
------------------------------------------------   
 TLDR; This aims to be a collection of server side scripts to keep your malcode from getting   
 in the hands of a SOC, VirusTotal, or the other various threat hunting services out there.   
 
@@ -8,17 +7,14 @@ In addition, this includes script(s) to automate the name and hash modifications
 Nothing new here, just using the same methods that criminals have been using forever.   
 
 ## php_gates   
----------------------------------------------------   
 A variety of PHP gate files which allow you to restrict the download of your payload for two scenarios.      
-
 1.) You know the target Gateway IP/range (id_ip_gate.php) blocks are are in there for curl/wget and "bot" to mess with junior SOC monkeys who might try to get the payload.  Payload will still be accessible if they are inside the target network and use a real browser UA via wget/curl on the gate file with the proper id parameter. If you are using payload_changer.py with the gate they won't be able to get the payload directly however.   
 
 2.) You don't know, or you don't want to risk the target opening work email from another network and not getting the payload: ```useragent_gat.php```       
 
 3.) Uber simple id switch so to view the payload: ```id_switch.php```   
 
-## payload_changer.py   
----------------------------------------------------   
+## payload_changer.py     
 No special dependancies   
 Currently, the script does the following    
 
@@ -31,8 +27,7 @@ Currently, the script does the following
  
  4.) Output of the payload hash and name are redirected to ```payload_hashes.txt``` in the same directory as ```payload_changer.py```.  Primarily created so you have details for reporting, but you can use this file to go backwards in the GET requests and hunt for which request resulted in your file ending up on VirusTotal. Can be useful for determining SOC tactics/response time if they are clueless enough to put things on VT.    
 
-Use example:   
----------------------------------------------------    
+## Use example:   
 You can run it via nginx or apache2 and tail the log files.   
 However, running it via php's built in server works great since requests acts as an interupt when running as a background process.   
 
@@ -56,11 +51,11 @@ Download chosen gate file to ```/tmp/html/``` (put the gate file in the same dir
 ```screen python payload_changer.py -d html/ -p payload.hta -g gate.php -s 10```   
 
 ### Future Improvements    
----------------------------------------------------   
+  
 Support for monitoring log files for successful downloads of payload   
 Support for identifying suspicious requests (example: googlebot UA from a non Google IP)   
 
----------------------------------------------------   
+#### Contact  
 Issues or feature requests   
 Contact sam@sayen.io    
 
