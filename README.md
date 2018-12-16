@@ -34,19 +34,19 @@ However, running it via php's built in server works great since requests acts as
 Download payload_changer.py to ```/tmp```   
 Download chosen gate file to ```/tmp/html/``` (put the gate file in the same directory as the payload) 
 
-#### make sure that you do not have directory listing enabled on you html folder....   
+Make sure that you do not have directory listing enabled on you html folder....   
 
 ```cd html```   
 
-#### run the php sever as a background process. Any requests will be an interrupt    
+Run the php sever as a background process. Any requests will be an interrupt    
 
 ```php -S publicip:80 &```    
 
-### go back one dir and run the python script.. make sure you are not putting it in your public html folder   
+Go back one dir and run the python script.. make sure you are not putting it in your public html folder   
 
 ```cd ../```  
 
-### recommend running under screen so you can detach (ctrl a ctrl d).  The php server will do interupts which works great to monitor during an engagement   
+Recommend running under screen so you can detach (ctrl a ctrl d).  The php server will do interupts which works great to monitor during an engagement   
 
 ```screen python payload_changer.py -d html/ -p payload.hta -g gate.php -s 10```   
 
