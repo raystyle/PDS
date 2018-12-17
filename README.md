@@ -1,18 +1,32 @@
 # PDS - Payload Delivery Shelter   
-TLDR; This aims to be a collection of server side scripts to keep your malcode from getting   
-in the hands of a SOC, VirusTotal, or the other various threat hunting services out there.   
+PDS is the yin to the yang that is payload keying.   
 
-In addition, this includes script(s) to automate the name and hash modifications of your payload (only HTA supported initially) on a timer of your choosing which may help evade some junior SOC folks doing hash and name searches in their SIEM.   
+#### Problem this addresses   
+Your malicious URL's are accessed by the organizations security stack, various search engine bots (some legit), threat hunters, etc. How are you keeping the payload from being downloaded by these services?   
 
-Nothing new here, just using the same methods that criminals have been using forever.   
+If your file is detected, can the SOC simply search for a hash or filename within your target environment?
+
+This project's goal as follows.
+
+1.) Keep payloads from bots/scrapers/threat hunters.   
+
+2.) The security team may be able to get a payload.  Ensure that all targets have not received the same payload. Make them hunt a little (full packet capture) or a lot (no proxy logs, no full pcap).    
+
+3.) Alert you to when someone gets your payload, AND when someone tries to get your payload which has already been moved. This can indicate someone is hunting within the org. 
+
+The project is broken up into php_gates which you can pick and choose to make the download of your payload more restrictive, and a python script that handles the modification of your payload names/hashes, and  
 
 ## php_gates   
-A variety of PHP gate files which allow you to restrict the download of your payload for two scenarios.      
-1.) You know the target Gateway IP/range (id_ip_gate.php) blocks are are in there for curl/wget and "bot" to mess with junior SOC monkeys who might try to get the payload.  Payload will still be accessible if they are inside the target network and use a real browser UA via wget/curl on the gate file with the proper id parameter. If you are using payload_changer.py with the gate they won't be able to get the payload directly however.   
+A variety of PHP gate files which allow you to restrict the download of your payload to your target only ideally. These files are just a reference and made for you to combine/modify to fit your environment.   
 
-2.) You don't know, or you don't want to risk the target opening work email from another network and not getting the payload: ```useragent_gat.php```       
+### Here are a few different common scenarios and the corresponding php gate:      
+1.) ```id_switch.php```: Simple id switch to retrieve the payload. In practice, ```index.php?id=target``` redirects the user to the payload, any bots/scrapers that visit ```index.php``` get redirected to a benign page, or a 404 (default).    
 
-3.) Uber simple id switch so to view the payload: ```id_switch.php```   
+2.) ```id_ip_gate.php```: Uses the id switch, but also restricts delivery to a target's Gateway IP/range, blocks for curl/wget and "bot" to mess with junior SOC monkeys who might try to get the payload.    
+
+3.) ```useragent_gate.php```: Very wide open gate, just tries to block common spider and search engine User Agents.  If you must place our payload on a public file without additional gates this can help keep it from common threat hunting scrapers.          
+
+
 
 ## payload_changer.py     
 No special dependancies   
@@ -51,7 +65,6 @@ Recommend running under screen so you can detach (ctrl a ctrl d).  The php serve
 ```screen python payload_changer.py -d html/ -p payload.hta -g gate.php -s 10```   
 
 ### Future Improvements    
-  
 Support for monitoring log files for successful downloads of payload   
 Support for identifying suspicious requests (example: googlebot UA from a non Google IP)   
 
