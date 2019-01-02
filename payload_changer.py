@@ -8,17 +8,17 @@ import datetime
 import time
 
 print '''
-------------------------------------------------Payload Changer V1.0--------------------------------------------------------------
-                                                (-h) for help
-                                  Reminder: Put this script outside the html directory
-                    Example:  Put this in /var/www/ and then the gate and payload in /var/www/html
-        !!!!NOTE: If you stop this, you need to change the gate file back to having the "payloadinitialized" string !!!!
-        Currently supports HTA by default, but you can edit to make the the comments work for the corresponding payload type
-----------------------------------------------------------------------------------------------------------------------------------
+--------------------------------Payload Changer V1.1---------------------------------------------------
+                                (-h) for help
+            Reminder: Put this script somewhere not readable on the web server
+NOTE: When you launch this, make sure your php gate has the "placeholder" string!!!!
+    Normal use:  Put this in /var/www/ and then the gate and payload in /var/www/html
+                        Send bugs and ideas to sam @ sayen.io
+--------------------------------------------------------------------------------------------------------
 '''
 
 parser = argparse.ArgumentParser(description='Changes your hta payload name and hash at a time interval, along with the reference in id_ip_gate.php')
-parser.add_argument('-d', '--directory', help="Relative or absolute path from this file to the payload and gate. Put in the ending slash. (ex: /var/www/html/ or html/", required=True)
+parser.add_argument('-d', '--directory', help="Absolute path to the directory with your payload and and php gate. Put in the ending slash. (ex: /var/www/html/", required=True)
 parser.add_argument('-p', '--payload', help="Name of initial payload. ex: docusign.hta", required=True)
 parser.add_argument('-g', '--gatename', help="Name of php gate. (Recommended you use id_ip_gate.php from git, but change the name..) Assumes the payload inside the gate is initially set to the default value of PAYLOADCHANGEME.hta", required=True)
 parser.add_argument('-s', '--sleepinterval', help="Number of seconds to sleep in between changing the payload name and hash. Default is 60 seconds", required=True)
@@ -39,14 +39,13 @@ def changer():
 
 
 def main():
-    
     print "[+] Payload name: %s" %(payloadpath)
     print "[+] PHP gate file which will have the payload set to change on the timer: %s" %(gatenamepath)
     print "[+] Sleep interval: %s seconds" %(sleepinterval)
     sleepintervalint = int(sleepinterval)
     oldrandonamereturnpath = payloadpath
     oldrandocomment = "initialized"
-    oldrandonamereturn = "payloadinitialized"
+    oldrandonamereturn = "placeholder"
 
 # Beginning of endless loop to change the payload hash, name, and reference in the gate php file
     while True:
@@ -83,11 +82,14 @@ def main():
         cmd = "shasum -a 256 %s" %(randonamereturnpath)
         payloadhash = commands.getoutput(cmd)
         payloadhash = str(payloadhash)
-        payloadhash = payloadhash + '\n'
 
 # Write the hash to a payload_hashes.txt log file in the same directory      
         with open("payload_hashes.txt", "a") as myfile:
-            myfile.write(payloadhash)
+            myfile.write(payloadhash + '\n')
+
+# Write the hash to a payload_hashes.txt log file in the same directory      
+        with open("payload_names.txt", "a") as myfile:
+            myfile.write(randonamereturn + '\n')
         
 # Move the variables to backups before replacing in the next loop        
         oldrandonamereturnpath = randonamereturnpath

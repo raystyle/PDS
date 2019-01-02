@@ -41,9 +41,9 @@ If you profile the targets via JQueryingU or another method add the agent to the
             header("HTTP/1.0 404 Not Found");  
         }            
         else {
-/* Modify "payloadinitialized" string to be your guarded file (payload.hta, etc) UNLESS you are using this with payload_changer.py.  
+/* Modify "placeholder" string to be your guarded file (payload.hta, etc) UNLESS you are using this with payload_changer.py.  
 If you are using it with the python script you will enter it with the -p parameter. */
-            header("Location: payloadinitialized");
+            header("Location: placeholder");
         }
         exit;
                 }

