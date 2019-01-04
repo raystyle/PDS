@@ -29,6 +29,8 @@ A variety of PHP gate files which allow you to restrict the download of your pay
 
 
 ## payload_changer.py     
+Desc: Python script to change your payload's name and hash on a timer along with the php gate that drops the hta.  Records name and hash changes to a file for reporting or tracing.
+
 No special dependancies   
 Currently, the script does the following    
 
@@ -40,6 +42,19 @@ Currently, the script does the following
  3.) Renames the reference inside the php gate file on the timer.  NOTE: you must change the file reference back to ```payloadinitalized``` if you kill the script and are restarting.  If you do not, it will not change the reference in the gate file once you restart.  You also must rename your payload back if you are killing and restarting the script.  i.e ```23432_payload.hta``` back to ```payload.hta``` and remove the appended comment tag inside the hta.    
  
  4.) Output of the payload hash and name are redirected to ```payload_hashes.txt``` in the same directory as ```payload_changer.py```.  Primarily created so you have details for reporting, but you can use this file to go backwards in the GET requests and hunt for which request resulted in your file ending up on VirusTotal. Can be useful for determining SOC tactics/response time if they are clueless enough to put things on VT.    
+
+ ## logmon.sh     
+Desc: Shell script to monitor for payload downloads and interrupt you with the basic info.   
+
+No special dependancies   
+Recommend running the script out of the same directory as payload_changer.py.   
+1.) The script currently just monitors for access attempts to .hta payloads.  
+2.) Doesn't recquire args to run.  Looks for nginx access.log first, then apache, then prompts if it can't find them.
+2.) Run it as a background job (&) and let it interrupt you when someone downloads your payload.    
+3.) Writes all the full web requests for HTA's to payload_hits.txt in the same directory if you want to check UA's after an alert
+4.) Use payload_changer.py's output payload_hashes.txt to retro hunt on VTI and track down the exact recquest that put it on there
+
+
 
 ## Use example:   
 You can run it via nginx or apache2 and tail the log files.   
