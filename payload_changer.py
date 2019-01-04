@@ -8,13 +8,13 @@ import datetime
 import time
 
 print '''
---------------------------------Payload Changer V1.1---------------------------------------------------
+--------------------------------PDS 1.1 Payload Changer---------------------------------
                                 (-h) for help
             Reminder: Put this script somewhere not readable on the web server
 NOTE: When you launch this, make sure your php gate has the "placeholder" string!!!!
     Normal use:  Put this in /var/www/ and then the gate and payload in /var/www/html
                         Send bugs and ideas to sam @ sayen.io
---------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------
 '''
 
 parser = argparse.ArgumentParser(description='Changes your hta payload name and hash at a time interval, along with the reference in id_ip_gate.php')
@@ -39,8 +39,8 @@ def changer():
 
 
 def main():
-    print "[+] Payload name: %s" %(payloadpath)
-    print "[+] PHP gate file which will have the payload set to change on the timer: %s" %(gatenamepath)
+    print "[+] Initial Payload: %s" %(payloadpath)
+    print "[+] PHP gate: %s" %(gatenamepath)
     print "[+] Sleep interval: %s seconds" %(sleepinterval)
     sleepintervalint = int(sleepinterval)
     oldrandonamereturnpath = payloadpath
@@ -53,7 +53,7 @@ def main():
         randonamereturn = changer()
         randonamereturnpath = directory + randonamereturn
         os.rename(oldrandonamereturnpath,randonamereturnpath)
-        print "File has been changed from %s to: %s" %(oldrandonamereturnpath, randonamereturnpath)
+        print "Changed:  %s --> %s" %(oldrandonamereturnpath, randonamereturnpath)
         datestamp = datetime.datetime.now().strftime("%I:%M%p on %B %d, %Y")
         randocomment = "<!-- " + randonamereturn + " : " + datestamp + " --!>"  
 
@@ -87,10 +87,7 @@ def main():
         with open("payload_hashes.txt", "a") as myfile:
             myfile.write(payloadhash + '\n')
 
-# Write the hash to a payload_hashes.txt log file in the same directory      
-        with open("payload_names.txt", "a") as myfile:
-            myfile.write(randonamereturn + '\n')
-        
+    
 # Move the variables to backups before replacing in the next loop        
         oldrandonamereturnpath = randonamereturnpath
         oldrandonamereturn = randonamereturn
