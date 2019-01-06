@@ -33,12 +33,8 @@ touch ${hitsfile}
 OLD=`md5sum ${hitsfile}`
 NEW=${OLD}
 
-#while true;
-#do 
+#tail the log file to look for hta hits
 tail -f ${logfile} | grep --line-buffered "hta HTTP/1.1" >> ${hitsfile} &
-#done&
-
-
 
 echo -e "\e[32m[+]\e[0m Monitoring for HTA access attempts" 
 while true;
