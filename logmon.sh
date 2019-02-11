@@ -7,13 +7,13 @@ apache_logfile="/var/log/apache2/access.log"
 if [ -f $nginx_logfile ]; then
     echo "NGINX access.log found and being used."
     logfile=${nginx_logfile}
-elif [ -d ${apache_logfile} ]; then
+elif [ -f ${apache_logfile} ]; then
     echo "No NGINX found, defaulting to Apache access.log file."
     logfile=${apache_logfile}
 else
     echo "No NGINX or Apache access.log found... Enter it with abs path now."
     read -p 'logfile: ' logfile  
-    if [ -d ${logfile} ]; then
+    if [ -f ${logfile} ]; then
         echo "Found your log file: ${logfile}"
     else
         echo "Sorry, file was not found"
